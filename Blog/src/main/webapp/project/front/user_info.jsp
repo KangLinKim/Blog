@@ -20,7 +20,7 @@ img.banner_image {
 	width:1110px;
 	height:500px;
 	object_fit:cover;
-	background:linear-gradient(to bottom right, pink, blue);
+	background:linear-gradient(to bottom right, pink, #738fe5);
 }
 </style>
 

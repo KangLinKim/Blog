@@ -7,7 +7,7 @@
 
 
 <body>
-<div class="container">
+<div class="container" style="background-color:#f8f8f8;">
 	<%-- <%@ include file="header.jsp"%>
 	--%>
 	
@@ -17,8 +17,12 @@
 		<jsp:param name="owner" value="smilegate" />
 	</jsp:include>
 	
-	<h3>2022.12.09 ~</h3>
-	<h1>Coming Soon!</h1>
+	<jsp:include page="context.jsp" >
+		<jsp:param name="user" value="smilegate" />
+		<jsp:param name="owner" value="smilegate" />
+	</jsp:include>
+	
+	
 	
 </div>
 </body>
