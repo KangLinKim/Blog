@@ -29,7 +29,7 @@ img.banner_image {
 	String owner = request.getParameter("owner");
 %>
 
-<div class="container">
+<div class="container" style="cursor:pointer;" OnClick="location.href='main.jsp'">
 	<div class="row">
 		<div class = "text-center" style = "position:relative;">
 			<img class="banner_background"/>

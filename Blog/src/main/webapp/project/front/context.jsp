@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
 
-<%@ include file="dbconn.jsp" %>
+<%@ include file="/connection/dbconn_database.jsp" %>
 
 <style>
 div.context_box {
@@ -17,6 +17,8 @@ div.context_box {
 	box-shadow: 3px 3px 3px gray;
 	
 	margin:auto;
+	
+	cursor:pointer;
 }
 .inner_context_box_title {
 	width:1000px;
@@ -46,70 +48,52 @@ div.context_box {
 </div>
 
 <%
-	Vector name=new Vector();
-	Vector inputdate=new Vector();
-	Vector email=new Vector();
-	Vector subject=new Vector();
-	Vector content=new Vector();
-	Vector rcount=new Vector();
+	Vector<Integer> post_ids = new Vector<Integer>();
+	Vector<String> post_writers = new Vector<String>();
+	Vector<String> post_subjects = new Vector<String>();
+	Vector<String> post_contents = new Vector<String>();
+	Vector<String> post_dates = new Vector<String>();
 	
-	Vector step=new Vector();
-	Vector keyid=new Vector();
-	int where=1;
-
-	int totalgroup=0;
-	int maxpages=2;
-	int startpage=1;
-	int endpage=startpage+maxpages-1;
-	int wheregroup=1;
-
 	String em=null;
 	//Connection con= null;
 	Statement st = null;
 	ResultSet rs = null;
 
-	//String table = request.getParameter("table");
-	String table = "freeboard";
-	
+	//String owner = request.getParameter("owner");
+	String owner = "smilegate";
+	String view = "posts_" + owner;
+
 	try {
-		st = con.createStatement();
-		String sql = "select * from " + table + " order by" ;
-		sql = sql + " masterid desc, replynum, step, id" ;
+		st = con_comments.createStatement();
+		String sql = "select * from " + view ;
+		//sql = sql + " masterid desc, replynum, step, id" ;
 		rs = st.executeQuery(sql);
-		
+
 		if (!(rs.next()))  {
 			out.println("게시판에 올린 글이 없습니다");
 		} else {
 			do {
-				keyid.addElement(new Integer(rs.getInt("id")));
-				name.addElement(rs.getString("name"));
-				email.addElement(rs.getString("email"));
-				String idate = rs.getString("inputdate");
+				post_ids.addElement(rs.getInt("post_id"));
+				post_writers.addElement(rs.getString("post_writer"));
+				post_subjects.addElement(rs.getString("post_subject"));
+				post_contents.addElement(rs.getString("post_content"));
+				String idate = rs.getString("post_date");
 				idate = idate.substring(0,8);
-				inputdate.addElement(idate);
-				
-				subject.addElement(rs.getString("subject"));
-				content.addElement(rs.getString("content"));
-				rcount.addElement(new Integer(rs.getInt("readcount")));
-				step.addElement(new Integer(rs.getInt("step")));
+				post_dates.addElement(idate);
 				
 			} while(rs.next());
-	
 %>
 
 
-
-
 <div class="container">
-
 	<%
-	for(int j = 0; j < subject.size(); j++) {
+		for(int j = 0; j < post_ids.size(); j++) {
 	%>
-	<div class="container" style ="padding:10px;">
+	<div class="container" style ="padding:10px;"  OnClick="location.href ='details.jsp?post_id=<%=post_ids.elementAt(j) %>'">
 		<div class="container context_box">
 			<div class="inner_context_box_title row">
 				<div class="col-6" contenteditable="true" disabled>
-					<% out.print(subject.elementAt(j)); %>
+					<% out.print(post_subjects.elementAt(j)); %>
 				</div>
 				
 				<div class="col-6">
@@ -137,17 +121,17 @@ div.context_box {
 				</div>
 			</div>
 			<div class="inner_context_box_subject" contenteditable="true" disabled>
-				<% out.print(content.elementAt(j));%>
+				<% out.print(post_contents.elementAt(j));%>
 			</div>
 		</div>
 	</div>
 
-<%			} 
+	<%		} 
 		}
 	} catch (java.sql.SQLException e) {
 		out.println(e);
 	}
-%>
+	%>
 	
 </div>
 
