@@ -2,50 +2,17 @@
 <%@ page language="java" import="java.sql.*,java.util.*" %> 
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/Blog/project/_res/css/style.css" type="text/css">
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
-<style>
-div.context_box {
-	width:1000px;
-	height:200px;
-	
-	border:1px solid;
-	border-radius : 0px 0px 20px 20px;
-	
-	background-color: white;
-	box-shadow: 3px 3px 3px gray;
-	
-	margin:auto;
-	
-	cursor:pointer;
+<script>
+function check() {
+	with(document.postwrite) {
+		document.postwrite.submit();
+	}
 }
-.inner_context_box_title {
-	width:1000px;
-	height:60px;
-	line-height:60px;
-		
-	border-right:1px solid black;
-	
-	font-size:1.5em;
-	color:white;
-	background-color: #738fe5;
-	
-}
-.inner_context_box_subject {
-	width:1000px;
-	height:auto;
-	
-	padding:10px;
-}
-
-</style>
-
-
-<div align="right" class="container" style="padding:5px;">
-	<input type="button" class="btn btn-outline-secondary" type="submit" value="새 글" style="margin-left:10px;">
-	<button type="button" class="btn btn-outline-secondary">새 글</button>
-</div>
+</script>
 
 <%
 	Vector<Integer> post_ids = new Vector<Integer>();
@@ -54,19 +21,18 @@ div.context_box {
 	Vector<String> post_contents = new Vector<String>();
 	Vector<String> post_dates = new Vector<String>();
 	
-	String em=null;
-	//Connection con= null;
+	String em = null;
 	Statement st = null;
 	ResultSet rs = null;
 
-	//String owner = request.getParameter("owner");
-	String owner = "smilegate";
+	String owner = request.getParameter("owner");
+	String writer = request.getParameter("user");
 	String view = "posts_" + owner;
 
 	try {
 		st = con_comments.createStatement();
-		String sql = "select * from " + view ;
-		//sql = sql + " masterid desc, replynum, step, id" ;
+		String sql = "select * from " + view + " order by post_id desc";
+		
 		rs = st.executeQuery(sql);
 
 		if (!(rs.next()))  {
@@ -84,12 +50,24 @@ div.context_box {
 			} while(rs.next());
 %>
 
+<div align="right" class="container" style="padding:5px;">
+	<form name="postwrite" class= "form-horizontal" method="post" action="post_write.jsp">
+		<div class = "form-group row">
+			<input type="hidden" name="owner" value="<%=owner %>"/>
+			<input type="hidden" name="writer" value="<%=writer %>"/>
+		</div>
+	</form>
+	<div class="text-right">
+		<a href="#" onClick="check();"><button type="submit" class="btn btn-outline-primary">새 글</button></a>
+	</div>
+</div>
+
 
 <div class="container">
 	<%
 		for(int j = 0; j < post_ids.size(); j++) {
 	%>
-	<div class="container" style ="padding:10px;"  OnClick="location.href ='details.jsp?post_id=<%=post_ids.elementAt(j) %>'">
+	<div class="container" style ="padding:10px;" onClick="location.href ='/Blog/project/front/details.jsp?post_id=<%=post_ids.elementAt(j) %>&owner=<%=owner%>&writer=<%=writer %>'">
 		<div class="container context_box">
 			<div class="inner_context_box_title row">
 				<div class="col-6" contenteditable="true" disabled>
@@ -97,8 +75,9 @@ div.context_box {
 				</div>
 				
 				<div class="col-6">
-			
-				<nav class="navbar navbar-expand-md bottom-header-box" style="float:right; top:0%;">	
+				
+			<!-- 
+				<nav class="navbar navbar-expand-md bottom-header-box" style="float:right; top:0%;">
 					<div class = "container">
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
@@ -117,7 +96,8 @@ div.context_box {
 						</div>
 					</div>
 				</nav>
-			
+			-->
+		
 				</div>
 			</div>
 			<div class="inner_context_box_subject" contenteditable="true" disabled>

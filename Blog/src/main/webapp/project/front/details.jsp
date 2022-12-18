@@ -2,26 +2,14 @@
 <%@ page language="java" import="java.sql.*,java.util.*" %> 
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/Blog/project/_res/css/style.css" type="text/css">
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
-<%@ include file="header.jsp"%>
-<jsp:include page="user_info.jsp" >
-	<jsp:param name="user" value="smilegate" />
-	<jsp:param name="owner" value="smilegate" />
-</jsp:include>
-	
-<style>
-td.context {
-	height:300px;
-}
-
-</style>
-
 <script>
-function check(){
-	with(document.commentswrite){
-		if(txtarea.value.length == 0){
+function check() {
+	with(document.commentswrite) {
+		if(txtarea.value.length == 0) {
 			alert("제목을 입력해 주세요!!");
 			txtarea.focus();
 			return false;
@@ -29,6 +17,26 @@ function check(){
 	document.commentswrite.submit();
 	}
 }
+function post_rewrite() {
+	with(document.post_rewrites) {
+		document.post_rewrites.submit();
+	}
+}
+function post_del() {
+	with(document.post_delete) {
+		document.post_delete.submit();
+	}
+}
+function dis_mod(i) {
+	if($('#dis' + i).css('display') == 'none'){
+		$('#dis' + i).show();
+		$('#de_dis' + i).hide();
+	} else {
+		$('#dis' + i).hide();
+		$('#de_dis' + i).show();
+	}
+}
+
 </script>
 
 <div class="container" style="background-color:#f8f8f8;">
@@ -54,10 +62,9 @@ function check(){
 	Vector<String> comments_contents = new Vector<String>();
 	Vector<String> comments_writers = new Vector<String>();
 	
-	//String owner = request.getParameter("owner");
-	String owner = "smilegate";
+	String owner = request.getParameter("owner");
+	String writer = request.getParameter("writer");
 	String view = "posts_" + owner;
-	String writer = "rkdfls12";
 	
 	int post_id = Integer.parseInt(request.getParameter("post_id"));
 	//int post_id = 1;
@@ -84,19 +91,27 @@ function check(){
 				comments_contents.addElement(rs_comments.getString("comments_content"));
 				comments_writers.addElement(rs_comments.getString("comments_writer"));
 			};
+			%>
 			
+			<%@ include file="header.jsp"%>
+			<jsp:include page="user_info.jsp" >
+				<jsp:param name="user" value="smilegate" />
+				<jsp:param name="owner" value="smilegate" />
+			</jsp:include>
+			
+			<%
 			out.println("<table class='table'>");
 		
 			out.println("<thead style='color:white; background-color: #738fe5; fontsize:2.0em;'>");
 			out.println("<tr>");
-			out.println("<th>제목 : " +rs_posts.getString("post_subject") + "</th>");
+			out.println("<th>제목 : " + rs_posts.getString("post_subject") + "</th>");
 			out.println("<th></th>");
 			out.println("</tr>");
 			out.println("</thead>");
 		
 			out.println("<tbody stlye='background-color:white;'>");
 			out.println("<tr>");
-			out.println("<td>글쓴이 : " +rs_posts.getString("post_id") + "</td>");
+			out.println("<td>글쓴이 : " + rs_posts.getString("post_writer") + "</td>");
 			out.println("<td></td>");
 			out.println("</tr>");
 			
@@ -112,11 +127,28 @@ function check(){
 			
 			for(int i = 0; i < comments_contents.size(); i++) {
 				out.println("<tr>");
-				out.println("<td>" + comments_writers.elementAt(i) + (" : ")
+				out.println("<td>");
+				out.println("<div id='de_dis" + i + "'>");
+				out.println(comments_writers.elementAt(i) + (" : ")
 							+ comments_contents.elementAt(i).replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
-							.replaceAll(">", "&gt").replaceAll("\n","<br>") + "</td>");
-				out.println("<td></td>");
+							.replaceAll(">", "&gt").replaceAll("\n","<br>"));
+				out.println("</div>");
+
+				out.println("<div class='row' id='dis" + i + "' style='display:none'>");
+				out.println("<textarea rows='3' maxlength='1000' class='form-control' name='txtarea'>" + 
+						comments_contents.elementAt(i).replaceAll(" ", "&nbsp;").replaceAll("<", "&lt;")
+						.replaceAll(">", "&gt").replaceAll("\n","<br>") + "</textarea>");
+				out.println("<button class='btn btn-outline-info' id='dis" + i + "'>저장</button>");
+				out.println("</div>");
+				
+				out.println("</td>");
+				out.println("<td class='text-right'>");
+				
+				out.println("<button class='btn btn-info' onClick='dis_mod(" + i + ")'>수정</button>");
+				out.println("<button class='btn btn-danger' id='show' onClick=''>삭제</button>");
+				out.println("</td>");
 				out.println("</tr>");
+				
 			}
 
 			out.println("</tbody>");
@@ -125,7 +157,7 @@ function check(){
 		
 	<form name="commentswrite" class= "form-horizontal" method="post" action="/Blog/project/background/comments_save.jsp">
 		<div class = "form-group row">
-			<textarea cols="65" rows="5" maxlength="1000" class="form-control" name="txtarea"></textarea>
+			<textarea cols="60" rows="5" maxlength="1000" class="form-control" name="txtarea"></textarea>
 			<input type="hidden" name="post_id" value="<%=post_id %>"/>
 			<input type="hidden" name="owner" value="<%=owner %>"/>
 			<input type="hidden" name="writer" value="<%=writer %>"/>
@@ -133,12 +165,33 @@ function check(){
 	</form>
 
 	<div class="text-right">
-		<a href="#" onClick="check();"><button type="submit" class="btn btn-outline-primary">저장</button></a>
+		<button type="submit" onClick="check();" class="btn btn-outline-primary">댓글 저장</button>
 	</div>
 
-	<div align="right" class="container" style="padding:5px;">
-		<button type="button" OnClick="location.href='post_rewrite.jsp'" class="btn btn-outline-info">수정</button>
-		<button type="button" class="btn btn-outline-denger">삭제</button>
+	<div class="container">
+	<div class="text-right float-right row" style="padding:5px;">
+		<form name="post_rewrites" class= "form-horizontal" method="post" action="/Blog/project/front/post_rewrite.jsp">
+			<div class = "form-group row">
+				<input type="hidden" name="post_id" value="<%=post_id %>"/>
+				<input type="hidden" name="owner" value="<%=owner %>"/>
+				<input type="hidden" name="writer" value="<%=writer %>"/>
+				<input type="hidden" name="post_subject" value="<%=rs_posts.getString("post_subject") %>"/>
+				<input type="hidden" name="post_writer" value="<%=rs_posts.getString("post_writer") %>"/>
+				<input type="hidden" name="post_date" value="<%=rs_posts.getString("post_date") %>"/>
+				<input type="hidden" name="post_content" value="<%=rs_posts.getString("post_content") %>"/>
+			</div>
+		</form>
+		<button type ="submit" onClick="post_rewrite();" class="btn btn-outline-info" style="margin:10px;">수정</button>
+		
+		<form name="post_delete" class= "form-horizontal" method="post" action="/Blog/project/background/posts_del.jsp">
+			<div class = "form-group row">
+				<input type="hidden" name="post_id" value="<%=post_id %>"/>
+				<input type="hidden" name="owner" value="<%=owner %>"/>
+				<input type="hidden" name="writer" value="<%=writer %>"/>
+			</div>
+		</form>
+		<button type ="submit" onClick="post_del();" class="btn btn-outline-danger" style="margin:10px;">삭제</button>
+	</div>
 	</div>
 
 		<%

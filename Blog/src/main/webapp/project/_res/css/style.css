@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+div.context_box {
+	width:1000px;
+	height:200px;
+	
+	border:1px solid;
+	border-radius : 0px 0px 20px 20px;
+	
+	background-color: white;
+	box-shadow: 3px 3px 3px gray;
+	
+	margin:auto;
+	
+	cursor:pointer;
+}
+.inner_context_box_title {
+	width:1000px;
+	height:60px;
+	line-height:60px;
+		
+	border-right:1px solid black;
+	
+	font-size:1.5em;
+	color:white;
+	background-color: #738fe5;
+	
+}
+.inner_context_box_subject {
+	width:1000px;
+	height:auto;
+	
+	padding:10px;
+}
+.new_post {
+	box-shadow: 3px 3px 3px gray;
+	background-color:white;
+}
+
+td.context {
+	height:300px;
+}
+
+
+img.banner_image {
+	border-radius : 0px 0px 20px 20px;
+	width: 700px;
+	height: auto;
+}
+
+.icon_image {
+	border-radius : 50%;
+	border : solid 8px;
+	border-color : white;
+	width : 100px;
+	height : 100px;
+}
+.banner_background {
+	width:1110px;
+	height:500px;
+	object_fit:cover;
+	background:linear-gradient(to bottom right, pink, #738fe5);
+}
+
+
+h3.sign_board{
+	background-color:#738fe5;
+	
+	color:white;
+	
+	height:60px;
+	line-height:60px;
+}

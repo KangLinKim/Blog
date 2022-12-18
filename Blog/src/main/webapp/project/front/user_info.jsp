@@ -1,35 +1,14 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
-
-<style>
-img.banner_image {
-	border-radius : 0px 0px 20px 20px;
-	width: 700px;
-	height: auto;
-}
-
-.icon_image {
-	border-radius : 50%;
-	border : solid 8px;
-	border-color : white;
-	width : 100px;
-	height : 100px;
-}
-.banner_background {
-	width:1110px;
-	height:500px;
-	object_fit:cover;
-	background:linear-gradient(to bottom right, pink, #738fe5);
-}
-</style>
+<link rel="stylesheet" href="/Blog/project/_res/css/style.css" type="text/css">
 
 <%
 	String user = request.getParameter("user");
 	String owner = request.getParameter("owner");
 %>
 
-<div class="container" style="cursor:pointer;" OnClick="location.href='main.jsp'">
+<div class="container" style="cursor:pointer;" onClick="location.href='/Blog/project/front/main.jsp'">
 	<div class="row">
 		<div class = "text-center" style = "position:relative;">
 			<img class="banner_background"/>
