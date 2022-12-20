@@ -36,6 +36,34 @@ div.context_box {
 	box-shadow: 3px 3px 3px gray;
 	background-color:white;
 }
+.table_div {
+	background-color: white;
+	box-shadow: 5px 5px 5px gray;
+}
+.banner_cover {
+	position:absolute;
+	
+	top:0px;
+	left:200px;
+	
+	height:400px;
+	width:700px;
+	
+	max-height:400px;
+	max-width:700px;
+	
+	overflow:hidden;
+	
+	border-radius : 0px 0px 20px 20px;
+	
+}
+.icon_cover {
+	position:absolute;
+	
+	top:370px;
+	left:180px;
+}
+
 
 td.context {
 	height:300px;
@@ -43,11 +71,13 @@ td.context {
 
 
 img.banner_image {
-	border-radius : 0px 0px 20px 20px;
-	width: 700px;
-	height: auto;
+	width:100%;
+	position: absolute;
+	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
-
 .icon_image {
 	border-radius : 50%;
 	border : solid 8px;
@@ -58,12 +88,16 @@ img.banner_image {
 .banner_background {
 	width:1110px;
 	height:500px;
-	object_fit:cover;
+	object-fit:cover;
 	background:linear-gradient(to bottom right, pink, #738fe5);
+}
+.like_image {
+	width:40px;
+	cursor:pointer;
 }
 
 
-h3.sign_board{
+h3.sign_board {
 	background-color:#738fe5;
 	
 	color:white;
@@ -71,3 +105,11 @@ h3.sign_board{
 	height:60px;
 	line-height:60px;
 }
+
+
+thead {
+	 color:white;
+	 background-color: #738fe5;
+	 font-size:1.5em;
+}
+

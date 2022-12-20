@@ -2,15 +2,17 @@
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
 
+
 <%
-	String user = request.getParameter("user");
 	String owner = request.getParameter("owner");
-	
+	String writer = request.getParameter("writer");
+	String post_id = request.getParameter("post_id");
 %>
 
 <div class="container">
-	<a>user=<%= user %></a>
+	<a>writer=<%= writer %></a>
 	<a>owner=<%= owner %></a>
+	<a>post_id=<%= post_id %></a>
 </div>
 
 

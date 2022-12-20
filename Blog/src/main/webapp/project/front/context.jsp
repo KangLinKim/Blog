@@ -6,14 +6,6 @@
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
-<script>
-function check() {
-	with(document.postwrite) {
-		document.postwrite.submit();
-	}
-}
-</script>
-
 <%
 	Vector<Integer> post_ids = new Vector<Integer>();
 	Vector<String> post_writers = new Vector<String>();
@@ -28,15 +20,28 @@ function check() {
 	String owner = request.getParameter("owner");
 	String writer = request.getParameter("user");
 	String view = "posts_" + owner;
-
+	
 	try {
 		st = con_comments.createStatement();
 		String sql = "select * from " + view + " order by post_id desc";
 		
 		rs = st.executeQuery(sql);
 
+		if(owner.equals(writer)) { %>
+		<div class="container text-right" style="padding:5px;">
+			<form name="postwrite" class= "form-horizontal" method="post" action="post_write.jsp">
+				<div class = "form-group row">
+					<input type="hidden" name="owner" value="<%=owner %>"/>
+					<input type="hidden" name="writer" value="<%=writer %>"/>
+				</div>
+				<button type="submit" onClick="check();"class="btn btn-outline-primary">새 글</button>
+			</form>
+		</div>
+		<% }
+		
 		if (!(rs.next()))  {
 			out.println("게시판에 올린 글이 없습니다");
+			
 		} else {
 			do {
 				post_ids.addElement(rs.getInt("post_id"));
@@ -48,65 +53,28 @@ function check() {
 				post_dates.addElement(idate);
 				
 			} while(rs.next());
-%>
-
-<div align="right" class="container" style="padding:5px;">
-	<form name="postwrite" class= "form-horizontal" method="post" action="post_write.jsp">
-		<div class = "form-group row">
-			<input type="hidden" name="owner" value="<%=owner %>"/>
-			<input type="hidden" name="writer" value="<%=writer %>"/>
-		</div>
-	</form>
-	<div class="text-right">
-		<a href="#" onClick="check();"><button type="submit" class="btn btn-outline-primary">새 글</button></a>
-	</div>
-</div>
-
-
+			%>
 <div class="container">
 	<%
 		for(int j = 0; j < post_ids.size(); j++) {
 	%>
-	<div class="container" style ="padding:10px;" onClick="location.href ='/Blog/project/front/details.jsp?post_id=<%=post_ids.elementAt(j) %>&owner=<%=owner%>&writer=<%=writer %>'">
+	<div class="container" style="padding:10px;" onClick="location.href ='/Blog/project/front/details.jsp?post_id=<%=post_ids.elementAt(j) %>&owner=<%=owner%>&writer=<%=writer %>'">
 		<div class="container context_box">
 			<div class="inner_context_box_title row">
-				<div class="col-6" contenteditable="true" disabled>
+				<div class="col-6" contenteditable="true" style="disabled:disabled">
 					<% out.print(post_subjects.elementAt(j)); %>
 				</div>
 				
 				<div class="col-6">
-				
-			<!-- 
-				<nav class="navbar navbar-expand-md bottom-header-box" style="float:right; top:0%;">
-					<div class = "container">
-						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-						
-						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav mr-auto">
-								<li class="nav-item dropdown">
-									<img src = "/Blog/project/_res/etc/dots_three_circle_vertical_icon.png" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbardrop" style ="width:50px; height:auto;"/>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="/pre_project/aisw.kangwon.ac.kr/aisw/intro/greetings.jsp">삭제</a>
-										<a class="dropdown-item" href="/pre_project/aisw.kangwon.ac.kr/aisw/intro/history04.jsp">수정</a>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</nav>
-			-->
-		
 				</div>
 			</div>
-			<div class="inner_context_box_subject" contenteditable="true" disabled>
+			<div class="inner_context_box_subject" contenteditable="true" style="disabled:disabled">
 				<% out.print(post_contents.elementAt(j));%>
 			</div>
 		</div>
 	</div>
 
-	<%		} 
+	<%		}
 		}
 	} catch (java.sql.SQLException e) {
 		out.println(e);

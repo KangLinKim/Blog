@@ -45,8 +45,8 @@ function check() {
 
 	<%@ include file="header.jsp"%>
 	<jsp:include page="user_info.jsp" >
-		<jsp:param name="user" value="smilegate" />
-		<jsp:param name="owner" value="smilegate" />
+		<jsp:param name="user" value="<%= writer %>" />
+		<jsp:param name="owner" value="<%= owner %>" />
 	</jsp:include>
 		
 	<div class = "container new_post" >

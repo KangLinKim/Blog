@@ -6,7 +6,7 @@
 <nav class="navbar navbar-expand-md bg-light navbar-light bottom-header-box">
 <div class = "container" style="text-align:center;">
 	<div class="col-6 text-left">
-		<img src="/Blog/project/_res/etc/Smilegate_Logo.png" style ="width:100px; height:auto;"/>
+		<img src="/Blog/project/_res/etc/Smilegate_Logo.png" style ="width:100px; height:auto; cursor:pointer;" onClick="location.href='/Blog/project/front/main.jsp'"/>
 	</div>
 	<div class="col-6 text-right">
 		<input type="button" class="btn btn-outline-secondary" type="submit" value="로그인" style="margin-left:10px;">
