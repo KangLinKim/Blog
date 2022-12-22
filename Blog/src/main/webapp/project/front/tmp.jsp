@@ -1,22 +1,36 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="org.apache.commons.fileupload.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="utils.*" %>
 
-<link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<%
+		String pw = "3131";
+		out.println("bard\t: " + SHA256.encodeSha256(pw));
+		out.println("<br>");
+		
+		pw = "4131";
+		out.println("rkdfls12\t: " + SHA256.encodeSha256(pw));
+		out.println("<br>");
+		
+		pw = "1111";
+		out.println("root\t: " + SHA256.encodeSha256(pw));
+		out.println("<br>");
+		
+		pw = "1234";
+		out.println("smilegate\t: " + SHA256.encodeSha256(pw));
+		out.println("<br>");
 
-
-<%
-	String owner = request.getParameter("owner");
-	String writer = request.getParameter("writer");
-	String post_id = request.getParameter("post_id");
-%>
-
-<div class="container">
-	<a>writer=<%= writer %></a>
-	<a>owner=<%= owner %></a>
-	<a>post_id=<%= post_id %></a>
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script src="/Blog/bootstrap-4.6.1-dist/jquery/jquery-3.5.1.js"></script>
-<script src="/Blog/bootstrap-4.6.1-dist/js/bootstrap.bundle.min.js"></script>
+		pw = "fwas";
+		out.println("smilegate : " + SHA256.encodeSha256(pw));
+	%>
+	
+</body>
+</html>

@@ -1,16 +1,13 @@
+<%@ page contentType="text/html; charset=utf-8" %>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page language="java" import="java.sql.*,java.util.*" %> 
-
-<link href="filegb.css" rel="stylesheet" type="text/css">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<%@ page language="java" import="java.util.*" %>
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/Blog/project/_res/css/style.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
-<%@ page contentType="text/html; charset=utf-8" %> 
-<%@ page language="java" import="java.sql.*" %>
 <html>
 <head>
 
@@ -42,8 +39,10 @@ function check() {
 	
 %>
 <div class="container" style="background-color:#f8f8f8;">
-
-	<%@ include file="header.jsp"%>
+	<jsp:include page="header.jsp" >
+		<jsp:param name="writer" value="<%= writer %>" />
+	</jsp:include>
+	
 	<jsp:include page="user_info.jsp" >
 		<jsp:param name="user" value="<%= writer %>" />
 		<jsp:param name="owner" value="<%= owner %>" />

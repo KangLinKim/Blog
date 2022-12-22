@@ -1,11 +1,12 @@
-<%@ page contentType="text/html; charset=utf-8"%>  
-<%@ page language="java" import="java.sql.*,java.util.*,java.text.*" %> 
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.*" %>
+<%@ page language="java" import="java.text.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
 <%
-	request.setCharacterEncoding("utf-8");
 	String owner = request.getParameter("owner");
 	String writer = request.getParameter("writer");
 	String post_id = request.getParameter("post_id");
@@ -22,10 +23,9 @@
 	Statement st_likes = null;
 	ResultSet rs_likes = null;
 	
-	
 	int cnt = 0;
 	
-	try{
+	try {
 		st_posts = con_posts.createStatement();
 		sql_posts = "delete from posts where post_id = " + post_id;
 		cnt = st_posts.executeUpdate(sql_posts);
@@ -39,12 +39,15 @@
 		cnt = st_likes.executeUpdate(sql_likes);
 		
 		st_posts.close();
+		rs_posts.close();
 		con_posts.close();
 		
 		st_comments.close();
+		rs_comments.close();
 		con_comments.close();
 
 		st_likes.close();
+		rs_likes.close();
 		con_likes.close();
 		
 	} catch (SQLException e) {

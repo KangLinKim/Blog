@@ -1,30 +1,19 @@
-<%@ page contentType="text/html; charset=utf-8"%>  
-<%@ page language="java" import="java.sql.*,java.util.*,java.text.*" %> 
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.*" %>
+<%@ page language="java" import="java.text.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 
 <%@ include file="/connection/dbconn_database.jsp" %>
+
 <%
 	String txtarea = request.getParameter("txtarea");
 	String post_id = request.getParameter("post_id");
 	String owner = request.getParameter("owner");
 	String writer = request.getParameter("writer");
 
-	 int id = 1;
-	 int pos = 0;
+	int id = 1;
 	
-
-	 while ((pos=txtarea.indexOf("\'", pos)) != -1) {
-	  String left=txtarea.substring(0, pos);
-	  String right=txtarea.substring(pos, txtarea.length());
-	  txtarea = left + "\'" + right;
-	  pos += 2;
-	 }
-	 
-	java.util.Date yymmdd = new java.util.Date() ;
-	SimpleDateFormat myformat = new SimpleDateFormat("yy-MM-d h:mm a");
-	String ymd = myformat.format(yymmdd);
-	
-
 	String sql_comments = null;
 	Statement st_comments = null;
 	ResultSet rs_comments = null;
@@ -47,13 +36,9 @@
 		
 		cnt = st_comments.executeUpdate(sql_comments);
 		
-		if (cnt >0) 
-			out.println("데이터가 성공적으로 입력되었습니다.");
-		else  
-			out.println("데이터가 입력되지 않았습니다. ");
-	  
 		st_comments.close();
 		con_comments.close();
+		
 	} catch (SQLException e) {
 		out.println(e);
 	}

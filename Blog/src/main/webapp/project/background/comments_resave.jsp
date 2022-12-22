@@ -1,8 +1,11 @@
-<%@ page contentType="text/html; charset=utf-8"%>  
-<%@ page language="java" import="java.sql.*,java.util.*,java.text.*" %> 
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.*" %>
+<%@ page language="java" import="java.text.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 
 <%@ include file="/connection/dbconn_database.jsp" %>
+
 <%
 	String owner = request.getParameter("owner");
 	String writer = request.getParameter("writer");
@@ -10,14 +13,9 @@
 	String post_id = request.getParameter("post_id");
 	String comment_id = request.getParameter("comment_id");
 
-	java.util.Date yymmdd = new java.util.Date() ;
-	SimpleDateFormat myformat = new SimpleDateFormat("yy-MM-d h:mm a");
-	String ymd = myformat.format(yymmdd);
-	
 	String sql_comments = null;
 	Statement st_comments = null;
 	ResultSet rs_comments = null;
-	
 	int cnt = 0;
 
 	try{
@@ -26,7 +24,9 @@
 		cnt = st_comments.executeUpdate(sql_comments);
 		
 		st_comments.close();
+		rs_comments.close();
 		con_comments.close();
+		
 	} catch (SQLException e) {
 		out.println(e);
 	}

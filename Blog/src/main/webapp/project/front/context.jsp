@@ -1,8 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page language="java" import="java.sql.*,java.util.*" %> 
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.*" %>
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/Blog/project/_res/css/style.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
@@ -18,7 +20,7 @@
 	ResultSet rs = null;
 
 	String owner = request.getParameter("owner");
-	String writer = request.getParameter("user");
+	String writer = request.getParameter("writer");
 	String view = "posts_" + owner;
 	
 	try {
@@ -29,7 +31,7 @@
 
 		if(owner.equals(writer)) { %>
 		<div class="container text-right" style="padding:5px;">
-			<form name="postwrite" class= "form-horizontal" method="post" action="post_write.jsp">
+			<form name="postwrite" class= "form-horizontal" method="post" action="/Blog/project/front/post_write.jsp">
 				<div class = "form-group row">
 					<input type="hidden" name="owner" value="<%=owner %>"/>
 					<input type="hidden" name="writer" value="<%=writer %>"/>
@@ -52,36 +54,30 @@
 				idate = idate.substring(0,8);
 				post_dates.addElement(idate);
 				
-			} while(rs.next());
-			%>
-<div class="container">
-	<%
-		for(int j = 0; j < post_ids.size(); j++) {
-	%>
-	<div class="container" style="padding:10px;" onClick="location.href ='/Blog/project/front/details.jsp?post_id=<%=post_ids.elementAt(j) %>&owner=<%=owner%>&writer=<%=writer %>'">
-		<div class="container context_box">
-			<div class="inner_context_box_title row">
-				<div class="col-6" contenteditable="true" style="disabled:disabled">
-					<% out.print(post_subjects.elementAt(j)); %>
+			} while(rs.next()); %>
+			<div class="container">
+			<% for(int j = 0; j < post_ids.size(); j++) { %>
+				<div class="container" style="padding:10px;" onClick="location.href ='/Blog/project/front/details.jsp?post_id=<%=post_ids.elementAt(j) %>&owner=<%=owner%>&writer=<%=writer %>'">
+					<div class="container context_box">
+						<div class="inner_context_box_title row">
+							<div class="col-6" contenteditable="true" style="disabled:disabled">
+								<% out.print(post_subjects.elementAt(j)); %>
+							</div>
+							
+							<div class="col-6">
+							</div>
+						</div>
+						<div class="inner_context_box_subject" contenteditable="true" style="disabled:disabled">
+							<% out.print(post_contents.elementAt(j));%>
+						</div>
+					</div>
 				</div>
-				
-				<div class="col-6">
-				</div>
+			<% } %>
 			</div>
-			<div class="inner_context_box_subject" contenteditable="true" style="disabled:disabled">
-				<% out.print(post_contents.elementAt(j));%>
-			</div>
-		</div>
-	</div>
-
-	<%		}
-		}
+			<% }
 	} catch (java.sql.SQLException e) {
 		out.println(e);
-	}
-	%>
-	
-</div>
+	} %>
 
 
 

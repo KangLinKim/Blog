@@ -1,11 +1,12 @@
-<%@ page contentType="text/html; charset=utf-8"%>  
-<%@ page language="java" import="java.sql.*,java.util.*,java.text.*" %> 
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.*" %>
+<%@ page language="java" import="java.text.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
 <%
-	request.setCharacterEncoding("utf-8");
 	String owner = request.getParameter("owner");
 	String writer = request.getParameter("writer");
 	String post_id = request.getParameter("post_id");
@@ -13,7 +14,6 @@
 	String sql_likes = null;
 	Statement st_likes = null;
 	ResultSet rs_likes = null;
-
 	int cnt = 0;
 	
 	try{
@@ -22,6 +22,7 @@
 		cnt = st_likes.executeUpdate(sql_likes);
 		
 		st_likes.close();
+		rs_likes.close();
 		con_likes.close();
 		
 	} catch (SQLException e) {

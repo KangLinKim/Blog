@@ -3,6 +3,7 @@
 	Connection con_posts = null;
 	Connection con_comments = null;
 	Connection con_likes = null;
+	Connection con_users = null;
 
 	String url = "jdbc:mysql://localhost:3306/sgblog_database?serverTimeZone=Asia/Seoul&useSSL=false";
 	String user = "root";
@@ -13,4 +14,5 @@
 	con_posts = DriverManager.getConnection(url, user, password);
 	con_comments = DriverManager.getConnection(url, user, password);
 	con_likes = DriverManager.getConnection(url, user, password);
+	con_users = DriverManager.getConnection(url, user, password);
 %>

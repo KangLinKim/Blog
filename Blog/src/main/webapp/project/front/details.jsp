@@ -1,8 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ page language="java" import="java.sql.*,java.util.*" %> 
+<%@ page language="java" import="java.sql.*" %>
+<%@ page language="java" import="java.util.*" %>
 
 <link rel="stylesheet" href="/Blog/bootstrap-4.6.1-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/Blog/project/_res/css/style.css?after" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <%@ include file="/connection/dbconn_database.jsp" %>
 
@@ -117,17 +119,20 @@ function like_N() {
 			};
 			%>
 			
-			<%@ include file="header.jsp"%>
-			<jsp:include page="user_info.jsp" >
-				<jsp:param name="user" value="smilegate" />
-				<jsp:param name="owner" value="smilegate" />
+			<jsp:include page="header.jsp" >
+				<jsp:param name="writer" value="<%= writer %>" />
+			</jsp:include>
+	
+			<jsp:include page="user_info.jsp">
+				<jsp:param name="writer" value="<%= writer %>" />
+				<jsp:param name="owner" value="<%= owner %>" />
 			</jsp:include>
 			
 			<%
 			out.println("<div class='table_div'>");
 			out.println("<table class='table'>");
 		
-			out.println("<thead>");
+			out.println("<thead class='context'>");
 			out.println("<tr>");
 			out.println("<th>제목 : " + rs_posts.getString("post_subject") + "</th>");
 			out.println("<th></th>");
